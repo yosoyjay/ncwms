@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/yosoyjay/ncwms.svg?branch=test_hook)](https://travis-ci.org/yosoyjay/ncwms)
 # ncWMS2
 
 [![Build Status](https://travis-ci.org/Reading-eScience-Centre/ncwms.svg?branch=test_hook)](https://travis-ci.org/Reading-eScience-Centre/ncwms)
@@ -177,6 +176,11 @@ By default, Tomcat will start with [two user accounts](https://github.com/axiom-
 
 A feature full Tomcat (SSL over APR, etc.) running [ncWMS](http://www.resc.rdg.ac.uk/trac/ncWMS/)
 
+Available versions:
+
+* `axiom/docker-ncwms` (currently `2.2.4`) - [docker hub](https://hub.docker.com/r/axiom/docker-ncwms/builds/)
+
+
 ### tl;dr
 
 **Quickstart**
@@ -291,6 +295,5 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ncWMS is developed by the [Reading e-Science Centre](http://www.met.reading.ac.uk/resc/home/) and is mainainted by [@guygriffiths](https://github.com/guygriffiths).
 
 Contributors:
-
 - [@yosoyjay](https://github.com/yosoyjay)
 - [@kwilcox](https://github.com/kwilcox)
