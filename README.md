@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/yosoyjay/ncwms.svg?branch=test_hook)](https://travis-ci.org/yosoyjay/ncwms)
 # ncWMS2
 
 [![Build Status](https://travis-ci.org/Reading-eScience-Centre/ncwms.svg?branch=test_hook)](https://travis-ci.org/Reading-eScience-Centre/ncwms)
@@ -175,11 +176,6 @@ By default, Tomcat will start with [two user accounts](https://github.com/axiom-
 # ncWMS on Docker
 
 A feature full Tomcat (SSL over APR, etc.) running [ncWMS](http://www.resc.rdg.ac.uk/trac/ncWMS/)
-
-Available versions:
-
-* `axiom/docker-ncwms` (currently `2.2.4`) - [docker hub](https://hub.docker.com/r/axiom/docker-ncwms/builds/)
-
 
 ### tl;dr
 
