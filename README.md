@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/yosoyjay/ncwms.svg?branch=test_hook)](https://travis-ci.org/yosoyjay/ncwms)
 # ncWMS2
 
 [![Build Status](https://travis-ci.org/Reading-eScience-Centre/ncwms.svg?branch=test_hook)](https://travis-ci.org/Reading-eScience-Centre/ncwms)
@@ -16,11 +17,6 @@ ncWMS v2 is built on top of the [EDAL]((https://reading-escience-centre.gitbooks
 
 A feature full Tomcat (SSL over APR, etc.) running [ncWMS](http://www.resc.rdg.ac.uk/trac/ncWMS/)
 
-Available versions:
-
-* `axiom/docker-ncwms` (currently `2.2.4`) - [docker hub](https://hub.docker.com/r/axiom/docker-ncwms/builds/)
-
-
 ### tl;dr
 
 **Quickstart**
@@ -30,8 +26,11 @@ $ docker run \
     -d \
     -p 80:8080 \
     -p 443:8443 \
-    axiom/docker-ncwms
+    -v /path/to/this/dir/config/config.xml:/usr/local/tomcat/.ncWMS2/config.xml 
+    ncwms:dockerize 
 ```
+
+Note: `-v` arguments require absolute path.
 
 **Production**
 
@@ -47,7 +46,7 @@ $ docker run \
     -e "ADVERTISED_PALETTES=div-RdBu" \
     -e "DEFAULT_PALETTE=div-RdBu" \
     --name ncwms \
-    axiom/docker-ncwms
+    ncwms:dockerize 
 ```
 
 ## Configuration
