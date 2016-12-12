@@ -47,5 +47,5 @@ RUN chown -R tomcat:tomcat "$CATALINA_HOME"
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 8080 8443
+EXPOSE 8080 8443 9090
 CMD ["catalina.sh", "run"]
