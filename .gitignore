@@ -14,3 +14,5 @@ pom-ackup.xml
 pom.xml.bak
 bin/
 *.swp
+*.idea
+*.iml
