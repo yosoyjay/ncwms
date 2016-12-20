@@ -186,7 +186,7 @@ $ docker run \
     -d \
     -p 80:8080 \
     -p 443:8443 \
-    -v /path/to/this/dir/config/config.xml:/usr/local/tomcat/.ncWMS2/config.xml 
+    -v /path/to/this/dir/config/config.xml:/usr/local/tomcat/.ncWMS2/config.xml
     ncwms:dockerize 
 ```
 
