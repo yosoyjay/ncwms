@@ -74,7 +74,9 @@ public class NcwmsConfigTest {
                 "a fake server", Arrays.asList("fake", "con", "front"), "http://google.com",
                 true);
         CacheInfo cacheInfo = new CacheInfo(true, 2000, 10.0f);
-        config = new NcwmsConfig(datasets, new NcwmsDynamicService[0], contact, serverInfo, cacheInfo);
+        NcwmsSupportedCrsCodes crsCodes = new NcwmsSupportedCrsCodes();
+
+        config = new NcwmsConfig(datasets, new NcwmsDynamicService[0], contact, serverInfo, cacheInfo, crsCodes);
     }
 
     @Test
