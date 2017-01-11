@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -55,7 +55,7 @@ public class NcwmsConfigTest {
     public void setUp() throws Exception {
         VariableConfig[] variables = new VariableConfig[] { new VariableConfig("varId", "A Variable", "A data-related quantity",
                 Extents.newExtent(-10f, 10f), "redblue", null, null, null, "linear", 250) };
-        
+
         DatasetConfig dataset = new DatasetConfig(variables);
         dataset.setId("datasetId");
         dataset.setTitle("A Dataset");
@@ -69,9 +69,9 @@ public class NcwmsConfigTest {
         dataset.setMoreInfo("more info");
         dataset.setQueryable(true);
         DatasetConfig[] datasets = new DatasetConfig[] { dataset };
-        
+
         NcwmsContact contact = new NcwmsContact("Guy", "ReSC", "5217", "g.g");
-        
+
         NcwmsServerInfo serverInfo = new NcwmsServerInfo("servername", true, 100, 50,
                 "a fake server", Arrays.asList("fake", "con", "front"), "http://google.com",
                 true);
@@ -89,13 +89,13 @@ public class NcwmsConfigTest {
         assertEquals(variableConfig.getDefaultPlottingParameters().isLogScaling(), false);
         variableConfig.setScaling("logarithmic");
         assertEquals(variableConfig.getDefaultPlottingParameters().isLogScaling(), false);
-        
+
         variableConfig.setColorScaleRange(Extents.newExtent(10f, 100f));
         variableConfig.setScaling("log");
         assertEquals(variableConfig.getDefaultPlottingParameters().isLogScaling(), true);
         variableConfig.setScaling("logarithmic");
         assertEquals(variableConfig.getDefaultPlottingParameters().isLogScaling(), true);
-        
+
         variableConfig.setColorScaleRange(Extents.newExtent(-10f, 10f));
         assertEquals(variableConfig.getDefaultPlottingParameters().getColorScaleRanges().get(0), Extents.newExtent(10f, 100f));
         variableConfig.setScaling("linear");
@@ -112,12 +112,12 @@ public class NcwmsConfigTest {
         String[] codes = {"CRS:187", "EPSG:187"};
         assertArrayEquals(config.getSupportedNcwmsCrsCodes().getSupportedCrsCodes(), codes);
     }
-    
+
 //    @Test
     public void testSerialise() throws JAXBException {
         StringWriter serialiseWriter = new StringWriter();
         config.serialise(serialiseWriter);
-        String serialise = serialiseWriter.toString(); 
+        String serialise = serialiseWriter.toString();
         System.out.println(serialise);
     }
 
@@ -128,7 +128,7 @@ public class NcwmsConfigTest {
 //                "/home/guy/.ncWMS2/config.xml")));
         System.out.println(deserialise);
     }
-    
+
     private final static String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
             + "<config><contact>"
             + "<name>Guy</name>"

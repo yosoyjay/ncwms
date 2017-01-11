@@ -66,6 +66,7 @@ import uk.ac.rdg.resc.edal.wms.util.ServerInfo;
  */
 public class NcwmsCatalogue extends DataCatalogue implements WmsCatalogue {
     private StyleCatalogue styleCatalogue;
+    private static String[] supportedCrsCodes;
 
     private static final String CACHE_NAME = "dynamicDatasetCache";
     private static final int MAX_HEAP_ENTRIES = 10;
