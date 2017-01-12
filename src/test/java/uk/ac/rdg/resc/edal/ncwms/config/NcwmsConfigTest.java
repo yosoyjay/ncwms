@@ -38,6 +38,7 @@ import java.util.Arrays;
 
 import javax.xml.bind.JAXBException;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -46,6 +47,7 @@ import uk.ac.rdg.resc.edal.catalogue.jaxb.CacheInfo;
 import uk.ac.rdg.resc.edal.catalogue.jaxb.DatasetConfig;
 import uk.ac.rdg.resc.edal.catalogue.jaxb.VariableConfig;
 import uk.ac.rdg.resc.edal.util.Extents;
+import uk.ac.rdg.resc.edal.ncwms.NcwmsCatalogue;
 
 public class NcwmsConfigTest {
 
