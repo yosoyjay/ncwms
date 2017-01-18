@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -28,6 +28,8 @@
 
 package uk.ac.rdg.resc.edal.ncwms;
 
+import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,21 +38,23 @@ import java.util.Map;
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import uk.ac.rdg.resc.edal.catalogue.jaxb.DatasetConfig;
+import uk.ac.rdg.resc.edal.exceptions.EdalException;
 import uk.ac.rdg.resc.edal.ncwms.config.NcwmsConfig;
 import uk.ac.rdg.resc.edal.util.GISUtils;
 import uk.ac.rdg.resc.edal.wms.RequestParams;
-import uk.ac.rdg.resc.edal.wms.WmsCatalogue;
 import uk.ac.rdg.resc.edal.wms.WmsServlet;
 
 /**
  * Servlet implementation class NcWmsServlet
- * 
+ *
  * @author Guy Griffiths
  * @author Nathan Potter
  */
@@ -123,38 +127,37 @@ public class NcwmsServlet extends WmsServlet implements Servlet {
         }
     }
 
-    @Override
-    protected void dispatchWmsRequest(String request, RequestParams params,
+    protected void dispatchNcwmsRequest(String request, RequestParams params,
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-            WmsCatalogue catalogue) throws Exception {
+            NcwmsCatalogue catalogue) throws Exception {
         /*-
          * For dynamic datasets, users can either specify the DATASET URL
          * parameter, or they can prepend the layer names with the path:
-         * 
+         *
          * alias/location/under/alias/variable_in_location
-         * 
+         *
          * For example, if the local path /mnt/data/ has the alias "local", and
          * the file /mnt/data/models/global/may1981.nc containing the variable
          * "sst" is required for a GetMap request, either:
-         * 
+         *
          * DATASET=local/models/global/may1981.nc&LAYERS=sst
-         * 
+         *
          * or
-         * 
+         *
          * LAYERS=local/models/global/may1981.nc/sst
-         * 
+         *
          * is a valid request. To implement this for all requests, we look for
          * the DATASET parameter and if it exists we prepend it to LAYERS,
          * QUERY_LAYERS (for GetFeatureInfo) and LAYERNAME (for many GetMetadata
          * requests)
-         * 
+         *
          * To make matters (slightly) more complex, the dataset ID can be
          * encoded within the URL, such that for a normal endpoint of:
          * http://localhost:8080/ncWMS2/wms
-         * 
+         *
          * the URL:
          * http://localhost:8080/ncWMS2/wms/local/models/global/may1981.nc?...&LAYER=sst...
-         * 
+         *
          * is exactly equivalent to the two examples above.
          */
 
@@ -209,17 +212,89 @@ public class NcwmsServlet extends WmsServlet implements Servlet {
             }
             params = params.mergeParameters(newParams);
         }
-        super.dispatchWmsRequest(request, params, httpServletRequest, httpServletResponse, catalogue);
+        /*
+         * If requesting a refresh to a dataset, do not call edal.wms.dispatchWmsRequest
+         */
+        if (request.equals("ForceRefresh")) {
+            DatasetConfig dsConfig = catalogue.getConfig().getDatasetInfo(dataset);
+            dsConfig.forceRefresh();
+            httpServletResponse.setStatus(httpServletResponse.SC_ACCEPTED);
+        }
+        else {
+            super.dispatchWmsRequest(request, params, httpServletRequest, httpServletResponse, catalogue);
+        }
+    }
+
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest httpServletRequest,
+                         HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        /*
+         * Create an object that allows request parameters to be retrieved in a
+         * way that is not sensitive to the case of the parameter NAMES (but is
+         * sensitive to the case of the parameter VALUES).
+         */
+        RequestParams params = new RequestParams(httpServletRequest.getParameterMap());
+
+        try {
+            /*
+             * Check the REQUEST parameter to see if we're producing a
+             * capabilities document, a map or a FeatureInfo
+             */
+            String request = params.getMandatoryString("request");
+            dispatchNcwmsRequest(request, params, httpServletRequest, httpServletResponse, ncwmsCatalogue);
+        } catch (EdalException wmse) {
+            boolean v130;
+            try {
+                v130 = "1.3.0".equals(params.getMandatoryWmsVersion());
+            } catch (EdalException e) {
+                /*
+                 * No version supplied, we'll return the exception in 1.3.0
+                 * format
+                 */
+                v130 = true;
+            }
+            handleWmsException(wmse, httpServletResponse, v130);
+        } catch (SocketException se) {
+            /*
+             * SocketExceptions usually happen when the client has aborted the
+             * connection, so there's nothing we can do here
+             */
+        } catch (IOException ioe) {
+            /*
+             * Filter out Tomcat ClientAbortExceptions, which for some reason
+             * don't inherit from SocketException. We check the class name to
+             * avoid a compile-time dependency on the Tomcat libraries
+             */
+            if (ioe.getClass().getName()
+                    .equals("org.apache.catalina.connector.ClientAbortException")) {
+                return;
+            }
+            /*
+             * Other types of IOException are potentially interesting and must
+             * be rethrown to avoid hiding errors (maybe they represent internal
+             * errors when reading data for instance).
+             */
+            throw ioe;
+        } catch (Exception e) {
+            log.error("Problem with GET request", e);
+            /* An unexpected (internal) error has occurred */
+            e.printStackTrace();
+            throw new IOException(e);
+        }
     }
 
     /**
      * For dynamic datasets specified on the URL, for some operations (e.g.
      * GetMetadata&item=menu) we end up exposing a full (i.e. dataset included)
      * layer name which then would get the dataset ID prepended to it again.
-     * 
+     *
      * To avoid that, we check if the layername is already of the form
      * "dataset/layername"
-     * 
+     *
      * @param dataset
      *            The dataset ID
      * @param layer
