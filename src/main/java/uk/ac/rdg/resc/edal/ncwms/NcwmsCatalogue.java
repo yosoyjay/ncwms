@@ -66,6 +66,9 @@ public class NcwmsCatalogue extends DataCatalogue implements WmsCatalogue {
     private StyleCatalogue styleCatalogue;
     private static String[] supportedCrsCodes;
 
+    public NcwmsCatalogue() {
+    }
+
     public NcwmsCatalogue(NcwmsConfig config) throws IOException {
         super(config, new SimpleLayerNameMapper());
         this.styleCatalogue = SldTemplateStyleCatalogue.getStyleCatalogue();
