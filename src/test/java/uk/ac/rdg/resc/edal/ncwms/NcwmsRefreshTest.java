@@ -31,33 +31,32 @@ package uk.ac.rdg.resc.edal.ncwms;
 import java.util.Arrays;
 import java.io.IOException;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
+
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.Before;
 
 import uk.ac.rdg.resc.edal.ncwms.config.*;
-import uk.ac.rdg.resc.edal.wms.RequestParams;
 import uk.ac.rdg.resc.edal.catalogue.jaxb.DatasetConfig;
 import uk.ac.rdg.resc.edal.catalogue.jaxb.VariableConfig;
 import uk.ac.rdg.resc.edal.catalogue.jaxb.CacheInfo;
-import uk.ac.rdg.resc.edal.catalogue.DataCatalogue;
 import uk.ac.rdg.resc.edal.util.Extents;
 
-public class NwcmsServletTest {
 
-    private NcwmsServlet servlet;
+public class NcwmsRefreshTest {
+
+    private NcwmsRefreshServlet servlet;
     private DatasetConfig dataset;
     private NcwmsConfig config;
 
     @Before
-    public void setUp() throws IOException {
-        servlet = new NcwmsServlet();
+    public void setUp() throws IOException, Exception {
+        servlet = new NcwmsRefreshServlet();
 
         // Required for tests, from NcwmsConfigTest.java
         VariableConfig[] variables = new VariableConfig[] { new VariableConfig("varId", "A Variable", "A data-related quantity",
@@ -75,6 +74,7 @@ public class NwcmsServletTest {
         dataset.setMetadataUrl("http://www.google.com");
         dataset.setMoreInfo("more info");
         dataset.setQueryable(true);
+        dataset.setLastSuccessfulUpdateTime(DateTime.parse("2012-01-01"));
         DatasetConfig[] datasets = new DatasetConfig[] { dataset };
 
         NcwmsContact contact = new NcwmsContact("Guy", "ReSC", "5217", "g.g");
@@ -90,19 +90,16 @@ public class NwcmsServletTest {
     }
 
     @Test
-    public void shouldRefresh() throws Exception {
-        HttpServletRequest mockedReq = mock(HttpServletRequest.class);
-        HttpServletResponse mockedResp = mock(HttpServletResponse.class);
-        RequestParams mockedRequestParams = mock(RequestParams.class);
+    public void test() throws Exception {
+        HttpServletRequest mockedRequest = mock(HttpServletRequest.class);
+        HttpServletResponse mockedResponse = mock(HttpServletResponse.class);
         NcwmsCatalogue spyNcwmsCatalogue = spy(NcwmsCatalogue.class);
 
-        when(mockedRequestParams.getString("DATASET")).thenReturn("datasetId");
+        when(mockedRequest.getParameter("id")).thenReturn("datasetId");
         when(spyNcwmsCatalogue.getConfig()).thenReturn(config);
-        String request = "ForceRefresh";
-
-        servlet.dispatchNcwmsRequest(request, mockedRequestParams, mockedReq, mockedResp, spyNcwmsCatalogue);
+        servlet.setCatalogue(spyNcwmsCatalogue);
+        servlet.doGet(mockedRequest, mockedResponse);
 
         assertTrue(dataset.needsRefresh());
     }
-
 }
