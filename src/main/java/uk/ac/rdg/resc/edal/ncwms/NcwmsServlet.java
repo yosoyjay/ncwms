@@ -128,9 +128,10 @@ public class NcwmsServlet extends WmsServlet implements Servlet {
         }
     }
 
-    protected void dispatchNcwmsRequest(String request, RequestParams params,
+    @Override
+    protected void dispatchWmsRequest(String request, RequestParams params,
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-            NcwmsCatalogue catalogue) throws Exception {
+            WmsCatalogue catalogue) throws Exception {
         /*-
          * For dynamic datasets, users can either specify the DATASET URL
          * parameter, or they can prepend the layer names with the path:

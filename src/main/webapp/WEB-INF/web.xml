@@ -93,6 +93,7 @@
         <servlet-name>NcwmsRefreshServlet</servlet-name>
         <url-pattern>/refresh/dataset</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
     <servlet-mapping>
         <servlet-name>NcwmsApiServlet</servlet-name>
         <url-pattern>/api/datasetinfo</url-pattern>
@@ -105,6 +106,8 @@
         <listener-class>uk.ac.rdg.resc.edal.wms.WmsContextListener</listener-class>
     </listener>
 
+=======
+>>>>>>> Added servlet to force fresh of dataset.  Removed means of doing so via wms request=forcedRefresh.
     <welcome-file-list>
         <welcome-file>index.htm</welcome-file>
     </welcome-file-list>
