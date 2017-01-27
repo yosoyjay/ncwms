@@ -51,6 +51,7 @@ import uk.ac.rdg.resc.edal.ncwms.config.NcwmsConfig;
 import uk.ac.rdg.resc.edal.util.GISUtils;
 import uk.ac.rdg.resc.edal.wms.RequestParams;
 import uk.ac.rdg.resc.edal.wms.WmsServlet;
+import uk.ac.rdg.resc.edal.wms.WmsCatalogue;
 
 /**
  * Servlet implementation class NcWmsServlet
@@ -127,9 +128,10 @@ public class NcwmsServlet extends WmsServlet implements Servlet {
         }
     }
 
-    protected void dispatchNcwmsRequest(String request, RequestParams params,
+    @Override
+    protected void dispatchWmsRequest(String request, RequestParams params,
             HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-            NcwmsCatalogue catalogue) throws Exception {
+            WmsCatalogue catalogue) throws Exception {
         /*-
          * For dynamic datasets, users can either specify the DATASET URL
          * parameter, or they can prepend the layer names with the path:
@@ -212,79 +214,7 @@ public class NcwmsServlet extends WmsServlet implements Servlet {
             }
             params = params.mergeParameters(newParams);
         }
-        /*
-         * If requesting a refresh to a dataset, do not call edal.wms.dispatchWmsRequest
-         */
-        if (request.equals("ForceRefresh")) {
-            DatasetConfig dsConfig = catalogue.getConfig().getDatasetInfo(dataset);
-            dsConfig.forceRefresh();
-            httpServletResponse.setStatus(httpServletResponse.SC_ACCEPTED);
-        }
-        else {
-            super.dispatchWmsRequest(request, params, httpServletRequest, httpServletResponse, catalogue);
-        }
-    }
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
-    @Override
-    protected void doGet(HttpServletRequest httpServletRequest,
-                         HttpServletResponse httpServletResponse) throws ServletException, IOException {
-        /*
-         * Create an object that allows request parameters to be retrieved in a
-         * way that is not sensitive to the case of the parameter NAMES (but is
-         * sensitive to the case of the parameter VALUES).
-         */
-        RequestParams params = new RequestParams(httpServletRequest.getParameterMap());
-
-        try {
-            /*
-             * Check the REQUEST parameter to see if we're producing a
-             * capabilities document, a map or a FeatureInfo
-             */
-            String request = params.getMandatoryString("request");
-            dispatchNcwmsRequest(request, params, httpServletRequest, httpServletResponse, ncwmsCatalogue);
-        } catch (EdalException wmse) {
-            boolean v130;
-            try {
-                v130 = "1.3.0".equals(params.getMandatoryWmsVersion());
-            } catch (EdalException e) {
-                /*
-                 * No version supplied, we'll return the exception in 1.3.0
-                 * format
-                 */
-                v130 = true;
-            }
-            handleWmsException(wmse, httpServletResponse, v130);
-        } catch (SocketException se) {
-            /*
-             * SocketExceptions usually happen when the client has aborted the
-             * connection, so there's nothing we can do here
-             */
-        } catch (IOException ioe) {
-            /*
-             * Filter out Tomcat ClientAbortExceptions, which for some reason
-             * don't inherit from SocketException. We check the class name to
-             * avoid a compile-time dependency on the Tomcat libraries
-             */
-            if (ioe.getClass().getName()
-                    .equals("org.apache.catalina.connector.ClientAbortException")) {
-                return;
-            }
-            /*
-             * Other types of IOException are potentially interesting and must
-             * be rethrown to avoid hiding errors (maybe they represent internal
-             * errors when reading data for instance).
-             */
-            throw ioe;
-        } catch (Exception e) {
-            log.error("Problem with GET request", e);
-            /* An unexpected (internal) error has occurred */
-            e.printStackTrace();
-            throw new IOException(e);
-        }
+        super.dispatchWmsRequest(request, params, httpServletRequest, httpServletResponse, catalogue);
     }
 
     /**
