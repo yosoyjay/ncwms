@@ -67,6 +67,7 @@ public class NcwmsCatalogue extends DataCatalogue implements WmsCatalogue {
     private static String[] supportedCrsCodes;
 
     public NcwmsCatalogue() {
+        super();
     }
 
     public NcwmsCatalogue(NcwmsConfig config) throws IOException {
