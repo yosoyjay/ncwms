@@ -9,7 +9,7 @@ RUN \
     maven \
     git
 
-# Fix for maven missing sting library 
+# Fix for maven missing sting library
 WORKDIR /usr/share/maven/lib
 RUN ln -s ../../java/commons-lang.jar .
 
@@ -19,7 +19,11 @@ RUN update-java-alternatives --set java-1.8.0-openjdk-amd64
 # Compile edal to avoid the broken version 1.2.4
 # - default WORKDIR is /usr/local/tomcat
 WORKDIR /usr/local/edal
+<<<<<<< HEAD
 RUN git clone https://github.com/yosoyjay/edal-java.git 
+=======
+RUN git clone https://github.com/yosoyjay/edal-java.git
+>>>>>>> ehcache-xml
 WORKDIR /usr/local/edal/edal-java
 RUN git checkout dev
 RUN mvn clean install

@@ -12,6 +12,7 @@ src/main/webapp/godiva3/
 src/main/webapp/WEB-INF/deploy/
 pom-ackup.xml
 pom.xml.bak
+
 bin/
 *.swp
 *.idea
