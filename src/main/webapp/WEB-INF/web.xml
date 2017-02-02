@@ -165,4 +165,13 @@
         <!-- Only advertise the default. The following is an example of advertising 3 palettes in addition to the default: -->
         <!-- <param-value>div-RdBu,div-RdBu-inv,seq-cubeYF</param-value> -->
     </context-param>
+<<<<<<< HEAD
+=======
+    <resource-ref>
+        <description>Connection to the database needed by Apache SIS.</description>
+        <res-ref-name>jdbc/SpatialMetadata</res-ref-name>
+        <res-ref-type>javax.sql.DataSource</res-ref-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+>>>>>>> Fixes missed in merges.
 </web-app>
