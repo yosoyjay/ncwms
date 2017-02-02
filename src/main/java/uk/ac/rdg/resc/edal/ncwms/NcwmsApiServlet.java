@@ -154,11 +154,11 @@ public class NcwmsApiServlet extends HttpServlet {
         String out;
         DatasetConfig.DatasetState state = dataset.getState();
         if (state == DatasetConfig.DatasetState.NEEDS_REFRESH) {
-            out = "READY";
+            out = "NEEDS_REFERSH";
         } else if (state == DatasetConfig.DatasetState.READY) {
             out = "READY";
         } else if (state == DatasetConfig.DatasetState.LOADING) {
-            out = "UPDATING";
+            out = "LOADINGG";
         } else if (state == DatasetConfig.DatasetState.UPDATING) {
             out = "UPDATING";
         } else {
