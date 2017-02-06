@@ -98,11 +98,11 @@ public class NcwmsApiTest {
     @Test
     public void testDecodeState() throws Exception {
         dataset.setState(DatasetConfig.DatasetState.NEEDS_REFRESH);
-        assertTrue(servlet.decodeState(dataset).equals("READY"));
+        assertTrue(servlet.decodeState(dataset).equals("NEEDS_REFRESH"));
         dataset.setState(DatasetConfig.DatasetState.READY);
         assertTrue(servlet.decodeState(dataset).equals("READY"));
         dataset.setState(DatasetConfig.DatasetState.LOADING);
-        assertTrue(servlet.decodeState(dataset).equals("UPDATING"));
+        assertTrue(servlet.decodeState(dataset).equals("LOADING"));
         dataset.setState(DatasetConfig.DatasetState.UPDATING);
         assertTrue(servlet.decodeState(dataset).equals("UPDATING"));
         dataset.setState(DatasetConfig.DatasetState.ERROR);
