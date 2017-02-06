@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -28,7 +28,6 @@
 
 package uk.ac.rdg.resc.edal.ncwms;
 
-<<<<<<< HEAD
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,17 +36,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
-=======
-import java.util.Arrays;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.PrintWriter;
->>>>>>> Add servlet to handle api requests about dataset status also available in the admin web gui.
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -64,26 +56,6 @@ import uk.ac.rdg.resc.edal.ncwms.config.NcwmsServerInfo;
 import uk.ac.rdg.resc.edal.ncwms.config.NcwmsSupportedCrsCodes;
 import uk.ac.rdg.resc.edal.util.Extents;
 
-=======
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
-
-import org.joda.time.DateTime;
-import org.junit.Test;
-import org.junit.Before;
-
-import uk.ac.rdg.resc.edal.ncwms.config.*;
-import uk.ac.rdg.resc.edal.wms.RequestParams;
-import uk.ac.rdg.resc.edal.catalogue.jaxb.DatasetConfig;
-import uk.ac.rdg.resc.edal.catalogue.jaxb.VariableConfig;
-import uk.ac.rdg.resc.edal.catalogue.jaxb.CacheInfo;
-import uk.ac.rdg.resc.edal.catalogue.DataCatalogue;
-import uk.ac.rdg.resc.edal.util.Extents;
-
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
-
->>>>>>> Add servlet to handle api requests about dataset status also available in the admin web gui.
 public class NcwmsApiTest {
 
     private NcwmsApiServlet servlet;
@@ -128,19 +100,11 @@ public class NcwmsApiTest {
     @Test
     public void testDecodeState() throws Exception {
         dataset.setState(DatasetConfig.DatasetState.NEEDS_REFRESH);
-<<<<<<< HEAD
         assertTrue(servlet.decodeState(dataset).equals("NEEDS_REFRESH"));
         dataset.setState(DatasetConfig.DatasetState.READY);
         assertTrue(servlet.decodeState(dataset).equals("READY"));
         dataset.setState(DatasetConfig.DatasetState.LOADING);
         assertTrue(servlet.decodeState(dataset).equals("LOADING"));
-=======
-        assertTrue(servlet.decodeState(dataset).equals("READY"));
-        dataset.setState(DatasetConfig.DatasetState.READY);
-        assertTrue(servlet.decodeState(dataset).equals("READY"));
-        dataset.setState(DatasetConfig.DatasetState.LOADING);
-        assertTrue(servlet.decodeState(dataset).equals("UPDATING"));
->>>>>>> Add servlet to handle api requests about dataset status also available in the admin web gui.
         dataset.setState(DatasetConfig.DatasetState.UPDATING);
         assertTrue(servlet.decodeState(dataset).equals("UPDATING"));
         dataset.setState(DatasetConfig.DatasetState.ERROR);
@@ -160,22 +124,12 @@ public class NcwmsApiTest {
         datasetInfo.put("title", "A Dataset");
         datasetInfo.put("lastUpdate", DateTime.parse("2012-01-01"));
         datasetInfo.put("status", servlet.decodeState(dataset));
-<<<<<<< HEAD
         JSONArray variables = new JSONArray();
         for (VariableConfig variable : dataset.getVariables()){
             JSONObject var = new JSONObject();
             var.put("id", variable.getId());
             var.put("title", "A Variable");
             variables.put(var);
-=======
-        datasetInfo.put("message", null);
-        JSONArray variables = new JSONArray();
-        for (VariableConfig variable : dataset.getVariables()){
-            JSONObject var = new JSONObject();
-            var.put("id", "varId");
-            var.put("title", "A Variable");
-            variables.add(var);
->>>>>>> Add servlet to handle api requests about dataset status also available in the admin web gui.
         }
         datasetInfo.put("variables", variables);
         servlet.setCatalogue(mockedNcwmsCatalogue);
