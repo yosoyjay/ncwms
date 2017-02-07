@@ -3,6 +3,7 @@ MAINTAINER Kyle Wilcox <kyle@axiomdatascience.com>
 
 RUN \
     apt-get update && \
+#    apt install -t jessie-backports openjdk-8-jre-headless ca-certificates-java && \
     apt-get install -y \
         git \
         maven \
