@@ -23,8 +23,8 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main\ndeb-
      update-java-alternatives -s java-8-oracle && \
      export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
-# Compile edal to use required features in develop branch
 ENV EDAL_VERSION edal-1.4.0
+# Compile edal to use required features in dev branch
 RUN mkdir /edal && \
     cd /edal && \
     git clone https://github.com/Reading-eScience-Centre/edal-java.git && \

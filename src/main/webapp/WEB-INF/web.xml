@@ -93,15 +93,10 @@
         <servlet-name>NcwmsRefreshServlet</servlet-name>
         <url-pattern>/refresh/dataset</url-pattern>
     </servlet-mapping>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Fixes missed in merges.
     <servlet-mapping>
         <servlet-name>NcwmsApiServlet</servlet-name>
         <url-pattern>/api/datasetinfo</url-pattern>
     </servlet-mapping>
-<<<<<<< HEAD
     <servlet-mapping>
         <servlet-name>EhcacheStatisticsServlet</servlet-name>
         <url-pattern>/statistics</url-pattern>
@@ -110,11 +105,6 @@
         <listener-class>uk.ac.rdg.resc.edal.wms.WmsContextListener</listener-class>
     </listener>
 
-=======
->>>>>>> Added servlet to force fresh of dataset.  Removed means of doing so via wms request=forcedRefresh.
-=======
-
->>>>>>> Fixes missed in merges.
     <welcome-file-list>
         <welcome-file>index.htm</welcome-file>
     </welcome-file-list>
@@ -175,13 +165,4 @@
         <!-- Only advertise the default. The following is an example of advertising 3 palettes in addition to the default: -->
         <!-- <param-value>div-RdBu,div-RdBu-inv,seq-cubeYF</param-value> -->
     </context-param>
-<<<<<<< HEAD
-=======
-    <resource-ref>
-        <description>Connection to the database needed by Apache SIS.</description>
-        <res-ref-name>jdbc/SpatialMetadata</res-ref-name>
-        <res-ref-type>javax.sql.DataSource</res-ref-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
->>>>>>> Fixes missed in merges.
 </web-app>
