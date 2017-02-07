@@ -3,9 +3,10 @@ MAINTAINER Kyle Wilcox <kyle@axiomdatascience.com>
 
 RUN \
     apt-get update && \
+#    apt install -t jessie-backports openjdk-8-jre-headless ca-certificates-java && \
     apt-get install -y \
     unzip \
-#    openjdk-8-jdk \
+#    openjdk-8-jre \
     maven \
     git
 
@@ -30,36 +31,42 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main\ndeb-
 
 # # Compile edal to avoid the broken version 1.2.4
 # # - default WORKDIR is /usr/local/tomcat
- WORKDIR /usr/local/edal
- RUN git clone https://github.com/yosoyjay/edal-java.git
- WORKDIR /usr/local/edal/edal-java
- RUN git checkout dev
- ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-# RUN update-java-alternatives -l 
- RUN mvn clean install
+WORKDIR /usr/local/edal
+RUN git clone https://github.com/yosoyjay/edal-java.git
+WORKDIR /usr/local/edal/edal-java
+RUN git checkout terracotta_serialization 
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+RUN mvn clean install
 
 # 
 # # Compile and install ncWMS
- WORKDIR /usr/local/ncWMS
- COPY . ./
- RUN mvn clean install
- RUN unzip target/ncWMS2.war -d $CATALINA_HOME/webapps/ncWMS/
+WORKDIR /usr/local/ncWMS
+COPY . ./
+RUN mvn clean install
+RUN unzip target/ncWMS2.war -d $CATALINA_HOME/webapps/ncWMS/
 
 # Set login-config to BASIC since it is handled through Tomcat
- RUN sed -i -e 's/DIGEST/BASIC/' $CATALINA_HOME/webapps/ncWMS/WEB-INF/web.xml
+RUN sed -i -e 's/DIGEST/BASIC/' $CATALINA_HOME/webapps/ncWMS/WEB-INF/web.xml
 
 # Tomcat users
- COPY config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml
+COPY config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml
 
 # Java options
- COPY config/javaopts.sh $CATALINA_HOME/bin/javaopts.sh
+#COPY config/javaopts.sh $CATALINA_HOME/bin/javaopts.sh
+COPY config/setenv.sh $CATALINA_HOME/bin/setenv.sh
  
 # Create context config file
- COPY config/ncWMS.xml $CATALINA_HOME/conf/Catalina/localhost/ncWMS.xml
+COPY config/ncWMS.xml $CATALINA_HOME/conf/Catalina/localhost/ncWMS.xml
+
+# Ehcache settings
+COPY config/ehcache.terracotta-net.xml $CATALINA_HOME/conf/ehcache.xml
+
+# ncWMS config
+COPY config/config.xml $CATALINA_HOME/.ncWMS2/config.xml
  
 # Set permissions
- RUN chown -R tomcat:tomcat "$CATALINA_HOME"
- 
+RUN chown -R tomcat:tomcat "$CATALINA_HOME"
+
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
  

@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <config>
     <datasets>
-        <dataset id="FVCOM" title="FVCOM" location="/usr/local/ncWMS/data/fvcom_example.nc" queryable="true" downloadable="false" dataReaderClass="" copyrightStatement="" moreInfo="" disabled="false" updateInterval="-1">
-            <variables/>
+        <dataset id="pws" title="pws" location="/mnt/spark/ncwms_test/pws_das.ncml" queryable="true" downloadable="false" dataReaderClass="" copyrightStatement="Your mom." moreInfo="" disabled="false" updateInterval="-1">
+            <variables>
+                <variable id="zeta" title="zeta" description="Sea Surface Height" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-0.9946 -0.6195" scaling="linear"/>
+                <variable id="temp" title="temp" description="Temperature" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="0.5556 7.257" scaling="linear"/>
+                <variable id="salt" title="salt" description="Salinity" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="22.35 33.0" scaling="linear"/>
+                <variable id="u" title="u" description="Zonal Current" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-1.215 0.8182" scaling="linear"/>
+                <variable id="v" title="v" description="Meridional Current" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-0.5095 1.163" scaling="linear"/>
+                <variable id="u:v-group" title="u:v-group" description="Vector fields for sea_water_velocity" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-0.05621 1.245" scaling="linear"/>
+                <variable id="u:v-mag" title="u:v-mag" description="Magnitude of components:
+Zonal Current and
+Meridional Current" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-0.05621 1.245" scaling="linear"/>
+                <variable id="u:v-dir" title="u:v-dir" description="Direction of components:
+Zonal Current and
+Meridional Current" palette="default" belowMinColor="#FF000000" aboveMaxColor="#FF000000" noDataColor="transparent" numColorBands="250" colorScaleRange="-196.8 191.6" scaling="linear"/>
+            </variables>
         </dataset>
     </datasets>
-    <cache enabled="false">
-        <inMemorySizeMB>256</inMemorySizeMB>
+    <cache enabled="true">
+        <inMemorySizeMB>1024</inMemorySizeMB>
         <elementLifetimeMinutes>0.0</elementLifetimeMinutes>
     </cache>
     <dynamicServices/>
     <contact>
         <name></name>
-        <organization></organization>
+        <organization>Axiom Data Science</organization>
         <telephone></telephone>
-        <email></email>
+        <email>axiom@axiomdatascience.com</email>
     </contact>
     <server>
-        <title>ncWMS Server</title>
+        <title>Axiom ncWMS</title>
         <allowFeatureInfo>true</allowFeatureInfo>
-        <maxImageWidth>1024</maxImageWidth>
-        <maxImageHeight>1024</maxImageHeight>
+        <maxImageWidth>2750</maxImageWidth>
+        <maxImageHeight>2750</maxImageHeight>
         <abstract></abstract>
         <keywords></keywords>
         <url></url>
         <allowglobalcapabilities>true</allowglobalcapabilities>
     </server>
-    <crsCodes>
-        <code>"EPSG:4326"</code>
-        <code>"CRS:84"</code>
-        <code>"EPSG:41001"</code>
-        <code>"EPSG:27700"</code>
-        <code>"EPSG:3408"</code>
-        <code>"EPSG:3409"</code>
-        <code>"EPSG:3857"</code>
-        <code>"EPSG:5041"</code>
-        <code>"EPSG:5042"</code>
-        <code>"EPSG:32661"</code>
-        <code>"EPSG:32761"</code>
-    </crsCodes>
+    <crsCodes/>
 </config>
