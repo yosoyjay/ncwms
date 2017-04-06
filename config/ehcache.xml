@@ -754,7 +754,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     <cache name="featureCache"
            eternal="true"
            timeToLiveSeconds="0"
-           maxBytesLocalHeap="16384M"
+           maxBytesLocalHeap="1024M"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
            statistics="true">
@@ -770,7 +770,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     <cache name="domainMapperCache"
            eternal="true"
            timeToLiveSeconds="0"
-           maxHeapEntries="100"
+           maxEntriesLocalHeap="100"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
            statistics="true">
@@ -785,7 +785,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     <cache name="meshDatasetCache"
            eternal="true"
            timeToLiveSeconds="0"
-           maxHeapEntries="50"
+           maxEntriesLocalHeap="50"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
            statistics="true">

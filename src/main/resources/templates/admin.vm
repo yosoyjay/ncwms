@@ -245,20 +245,20 @@
 #end
         </table>
 
-        <h2>Cache settings</h2>
+        <h2>FeatureCache settings</h2>
         <p>This ncWMS server uses a cache of recently-extracted features to increase
         performance and reduce the load on the server.  Note that the cache will use up
         some memory (configurable below).</p>
         <table border="1">
             <tr>
                 <th>Enable cache?</th>
-                <td><input type="checkbox" name="cache.enable"#if(${config.cacheSettings.enabled}) checked="checked"#end/></td>
+                <td><input type="checkbox" name="cache.featureCacheEnabled"#if(${config.cacheSettings.featureCacheEnabled}) checked="checked"#end/></td>
                 <td>Check this box to enable the cache.  <font color="red">This can be changed while the server is running, but disabling
                 it will clear the current cache (freeing up memory).</font></td>
             </tr>
             <tr>
                 <th>Total size of cache in memory (MB)</th>
-                <td><input type="text" name="cache.inMemorySizeMB" value="${config.cacheSettings.inMemorySizeMB}"/></td>
+                <td><input type="text" name="cache.featureCacheInMemorySizeMB" value="${config.cacheSettings.featureCacheInMemorySizeMB}"/></td>
                 <td>The maximum in-memory size of the cache.  Once the cache exceeds this size, elements will be removed from it,
                 based on how frequently they have been used, followed by how recently they have been used.
                 <font color="red">This can be changed while the server is running, but if you change this value the current
@@ -266,7 +266,36 @@
             </tr>
             <tr>
                 <th>Lifetime of in-memory elements (minutes)</th>
-                <td><input type="text" name="cache.elementLifetimeMinutes" value="${config.cacheSettings.elementLifetimeMinutes}"/></td>
+                <td><input type="text" name="cache.featureCacheElementLifetimeMinutes" value="${config.cacheSettings.featureCacheElementLifetimeMinutes}"/></td>
+                <td>The time each element will remain in the cache for.  Setting this to zero means that each element will remain
+                indefinitely, only being removed once the memory limit (above) is reached, and cache cleanup occurs.
+                <font color="red">This can be changed while the server is running, but if you change this value the current
+                cache will be emptied.</font></td>
+            </tr>
+        </table>
+
+        <h2>DatasetCache settings</h2>
+        <p>This ncWMS server uses a cache of recently extracted features to increase
+        performance and reduce the load on the server.  Note that the cache will use up
+        some memory (configurable below).</p>
+        <table border="1">
+            <tr>
+                <th>Enable cache?</th>
+                <td><input type="checkbox" name="cache.datasetCacheEnabled"#if(${config.cacheSettings.datasetCacheEnabled}) checked="checked"#end/></td>
+                <td>Check this box to enable the cache.  <font color="red">This can be changed while the server is running, but disabling
+                it will clear the current cache (freeing up memory).</font></td>
+            </tr>
+            <tr>
+                <th>Total size of cache in memory (MB)</th>
+                <td><input type="text" name="cache.datasetCacheInMemorySizeMB" value="${config.cacheSettings.datasetCacheInMemorySizeMB}"/></td>
+                <td>The maximum in-memory size of the cache.  Once the cache exceeds this size, elements will be removed from it,
+                based on how frequently they have been used, followed by how recently they have been used.
+                <font color="red">This can be changed while the server is running, but if you change this value the current
+                cache will be emptied.</font></td>
+            </tr>
+            <tr>
+                <th>Lifetime of in-memory elements (minutes)</th>
+                <td><input type="text" name="cache.datasetCacheElementLifetimeMinutes" value="${config.cacheSettings.datasetCacheElementLifetimeMinutes}"/></td>
                 <td>The time each element will remain in the cache for.  Setting this to zero means that each element will remain
                 indefinitely, only being removed once the memory limit (above) is reached, and cache cleanup occurs.
                 <font color="red">This can be changed while the server is running, but if you change this value the current
