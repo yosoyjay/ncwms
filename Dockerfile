@@ -34,7 +34,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main\ndeb-
 WORKDIR /usr/local/edal
 RUN git clone https://github.com/yosoyjay/edal-java.git
 WORKDIR /usr/local/edal/edal-java
-RUN git checkout terracotta_serialization 
+RUN git checkout dataset_cache  
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 RUN mvn clean install
 

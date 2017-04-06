@@ -75,7 +75,7 @@ public class NcwmsConfigTest {
         NcwmsServerInfo serverInfo = new NcwmsServerInfo("servername", true, 100, 50,
                 "a fake server", Arrays.asList("fake", "con", "front"), "http://google.com",
                 true);
-        CacheInfo cacheInfo = new CacheInfo(true, 2000, 10.0f);
+        CacheInfo cacheInfo = new CacheInfo(true, 2000, 10.0f, true, 2000, 10.0f);
         String[] codes = {"CRS:187", "EPSG:187"};
         NcwmsSupportedCrsCodes crsCodes = new NcwmsSupportedCrsCodes(codes);
 

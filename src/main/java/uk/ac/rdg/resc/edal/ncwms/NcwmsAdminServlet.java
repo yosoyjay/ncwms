@@ -463,20 +463,35 @@ public class NcwmsAdminServlet extends HttpServlet {
         }
 
         /* Set the properties of the cache */
-        cache.setEnabled(request.getParameter("cache.enable") != null);
-        String tmpMemorySize = request.getParameter("cache.inMemorySizeMB");
+        cache.setFeatureCacheEnabled(request.getParameter("cache.featureCacheEnabled") != null);
+        String tmpMemorySize = request.getParameter("cache.featureCacheInMemorySizeMB");
         if (!tmpMemorySize.isEmpty()) {
-            cache.setInMemorySizeMB(Integer.parseInt(tmpMemorySize));
+            cache.setFeatureCacheInMemorySizeMB(Integer.parseInt(tmpMemorySize));
         }
-        String tmpLifetime = request.getParameter("cache.elementLifetimeMinutes");
+        String tmpLifetime = request.getParameter("cache.featureCacheElementLifetimeMinutes");
         if (!tmpLifetime.isEmpty()) {
-            cache.setElementLifetimeMinutes(Float.parseFloat(tmpLifetime));
+            cache.setFeatureCacheElementLifetimeMinutes(Float.parseFloat(tmpLifetime));
+        }
+        /*
+         * Update the cache settings.
+         */
+        catalogue.setCache(cache, "featureCache");
+
+        cache.setDatasetCacheEnabled(request.getParameter("cache.datasetCacheEnabled") != null);
+        tmpMemorySize = request.getParameter("cache.datasetCacheInMemorySizeMB");
+        if (!tmpMemorySize.isEmpty()) {
+            cache.setDatasetCacheInMemorySizeMB(Integer.parseInt(tmpMemorySize));
+        }
+        tmpLifetime = request.getParameter("cache.datasetCacheElementLifetimeMinutes");
+        if (!tmpLifetime.isEmpty()) {
+            cache.setDatasetCacheElementLifetimeMinutes(Float.parseFloat(tmpLifetime));
         }
 
         /*
          * Update the cache settings.
          */
-        catalogue.setCache(cache);
+        catalogue.setCache(cache, "datasetCache");
+
 
         /* Save the updated config information to disk */
         try {
