@@ -174,9 +174,9 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     Without rejoin, if the Terracotta Server is restarted the client cannot connect back to the
     server. When enabled, this allows the client to connect to the new cluster without the
     need to restart the node.
-    
-    When wanEnabledTSA is true, the client will wait for the WAN Orchestrator to provide the 
-    list of WAN enabled caches. Once the Orchestrator is up and running then the client will proceed 
+
+    When wanEnabledTSA is true, the client will wait for the WAN Orchestrator to provide the
+    list of WAN enabled caches. Once the Orchestrator is up and running then the client will proceed
     to create the clustered data structures.
 
     Example using a path to Terracotta configuration file:
@@ -333,7 +333,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
 
     * distributed - Defers to the <terracotta> configuration for persistence settings. This option
     is not applicable for standalone.
-    
+
     synchronousWrites:
     When set to true write operations on the cache do not return until after the operations data has been
     successfully flushed to the disk storage.  This option is only valid when used with the "localRestartable"
@@ -515,7 +515,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     The SizeOf policy can be configured at the cache manager level (directly under <ehcache>) and at
     the cache level (under <cache> or <defaultCache>). The cache policy always overrides the cache manager
     one if both are set. This element has no effect on distributed caches.
-    
+
     Transactions
     ++++++++++++
 
