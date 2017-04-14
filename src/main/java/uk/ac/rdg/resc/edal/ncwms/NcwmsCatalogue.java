@@ -28,8 +28,6 @@
 
 package uk.ac.rdg.resc.edal.ncwms;
 
-import java.io.IOException;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
@@ -57,6 +55,8 @@ import uk.ac.rdg.resc.edal.ncwms.config.NcwmsSupportedCrsCodes;
 import uk.ac.rdg.resc.edal.wms.WmsCatalogue;
 import uk.ac.rdg.resc.edal.wms.util.ContactInfo;
 import uk.ac.rdg.resc.edal.wms.util.ServerInfo;
+
+import java.io.IOException;
 
 /**
  * An extension of {@link DataCatalogue} to add WMS-specific capabilities for
