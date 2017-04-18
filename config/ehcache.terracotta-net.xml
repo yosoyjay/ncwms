@@ -776,5 +776,21 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
         <sizeOfPolicy maxDepth="4000000"/>
     </cache>
 
-    <terracottaConfig url="10.2.5.3:9510"/> 
+    <!--
+    EDAL Cache: datasetCache
+    - Caches entire non-dynamic datasets 
+    -->
+    <cache name="datasetCache"
+           maxEntriesLocalHeap="25"
+           eternal="true"
+           timeToLiveSeconds="0"
+           memoryStoreEvictionPolicy="LRU"
+           transactionalMode="off"
+           statistics="true">
+        <persistence strategy="distributed"/>
+        <terracotta clustered="false"/>
+        <sizeOfPolicy maxDepth="4000000"/>
+    </cache>
+
+    <terracottaConfig url="10.2.5.3:9510"/>
 </ehcache>
