@@ -38,15 +38,21 @@ RUN git checkout dataset_cache
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 RUN mvn clean install
 
-# 
 # # Compile and install ncWMS
 WORKDIR /usr/local/ncWMS
-COPY . ./
-RUN mvn clean install
-RUN unzip target/ncWMS2.war -d $CATALINA_HOME/webapps/ncWMS/
+COPY pom.xml .
+#cache some build dependencies
+RUN mvn clean test dependency:go-offline
+COPY . .
+RUN mkdir -p /srv/ncwms \
+   && mvn clean install \
+   && unzip target/ncWMS2.war -d /srv/ncwms \
+   && rm -rf /usr/local/ncWMS
+
+WORKDIR /srv/ncwms
 
 # Set login-config to BASIC since it is handled through Tomcat
-RUN sed -i -e 's/DIGEST/BASIC/' $CATALINA_HOME/webapps/ncWMS/WEB-INF/web.xml
+RUN sed -i -e 's/DIGEST/BASIC/' /srv/ncwms/WEB-INF/web.xml
 
 # Tomcat users
 COPY config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml
@@ -55,8 +61,10 @@ COPY config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml
 #COPY config/javaopts.sh $CATALINA_HOME/bin/javaopts.sh
 COPY config/setenv.sh $CATALINA_HOME/bin/setenv.sh
  
-# Create context config file
-COPY config/ncWMS.xml $CATALINA_HOME/conf/Catalina/localhost/ncWMS.xml
+#add tomcat context.xml file
+RUN mkdir -p $CATALINA_HOME/conf/Catalina/localhost \
+  && echo '<?xml version="1.0" encoding="UTF-8"?>\n<Context docBase="/srv/ncwms" path="" />' \
+    > $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
 
 # Ehcache settings
 COPY config/ehcache.terracotta-net.xml $CATALINA_HOME/conf/ehcache.xml
