@@ -11,6 +11,9 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Fix for maven missing sting library
+RUN ln -s /usr/share/java/commons-lang.jar /usr/share/maven/lib/commons-lang.jar
+
 # Fix for java8 in jessie
 # https://serverfault.com/questions/830636/cannot-install-openjdk-8-jre-headless-on-debian-jessie/830637#830637
 # https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
@@ -43,10 +46,9 @@ RUN cd /ncWMS && \
 # Set login-config to BASIC since it is handled through Tomcat
 RUN sed -i -e 's/DIGEST/BASIC/' $CATALINA_HOME/webapps/ncWMS/WEB-INF/web.xml && \
     cp /ncWMS/config/setenv.sh $CATALINA_HOME/bin/setenv.sh && \
-    cp /ncWMS/config/ecache.xml $CATALINA_HOME/conf/ecache.xml && \
+    cp /ncWMS/config/ehcache.xml $CATALINA_HOME/conf/ehcache.xml && \
     cp /ncWMS/config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml && \
     mkdir -p $CATALINA_HOME/conf/Catalina/localhost/ && \
-    cp /ncWMS/config/ncWMS.xml $CATALINA_HOME/conf/Catalina/localhost/ncWMS.xml && \
     mkdir -p $CATALINA_HOME/.ncWMS2 && \
     cp /ncWMS/config/config.xml $CATALINA_HOME/.ncWMS2/config.xml
 
