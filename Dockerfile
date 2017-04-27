@@ -3,7 +3,6 @@ MAINTAINER Kyle Wilcox <kyle@axiomdatascience.com>
 
 RUN \
     apt-get update && \
-#    apt install -t jessie-backports openjdk-8-jre-headless ca-certificates-java && \
     apt-get install -y \
         git \
         maven \
@@ -35,22 +34,30 @@ RUN mkdir /edal && \
     git checkout ${EDAL_VERSION} && \
     JAVA_HOME=/usr/lib/jvm/java-8-oracle mvn clean install
 
+# Cache some dependencies
+COPY pom.xml .
+RUN mvn clean test dependency:go-offline
+
 # Compile and install ncWMS
 COPY . /ncWMS
 RUN cd /ncWMS && \
     JAVA_HOME=/usr/lib/jvm/java-8-oracle mvn clean install && \
-    unzip target/ncWMS2.war -d $CATALINA_HOME/webapps/ncWMS/ && \
+    mkdir -p /srv/ncwms && \
+    unzip target/ncWMS2.war -d /srv/ncwms/ && \
     rm -rf /edal && \
     rm -rf /ncWMS/target
 
 # Set login-config to BASIC since it is handled through Tomcat
-RUN sed -i -e 's/DIGEST/BASIC/' $CATALINA_HOME/webapps/ncWMS/WEB-INF/web.xml && \
+RUN sed -i -e 's/DIGEST/BASIC/' /srv/ncwms/WEB-INF/web.xml && \
     cp /ncWMS/config/setenv.sh $CATALINA_HOME/bin/setenv.sh && \
     cp /ncWMS/config/ehcache.xml $CATALINA_HOME/conf/ehcache.xml && \
     cp /ncWMS/config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml && \
     mkdir -p $CATALINA_HOME/conf/Catalina/localhost/ && \
     mkdir -p $CATALINA_HOME/.ncWMS2 && \
     cp /ncWMS/config/config.xml $CATALINA_HOME/.ncWMS2/config.xml
+
+RUN echo '<?xml version="1.0" encoding="UTF-8"?>\n<Context docBase="/srv/ncwms" path="" />' \
+    > $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
 
 ENTRYPOINT ["/ncWMS/entrypoint.sh"]
 
