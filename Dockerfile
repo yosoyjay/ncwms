@@ -31,7 +31,7 @@ RUN mkdir /edal && \
     cd /edal && \
     git clone https://github.com/Reading-eScience-Centre/edal-java.git && \
     cd edal-java && \
-    git checkout ${EDAL_VERSION} && \
+    git checkout axiom-develop && \
     JAVA_HOME=/usr/lib/jvm/java-8-oracle mvn clean install
 
 # Cache some dependencies
