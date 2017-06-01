@@ -66,7 +66,13 @@ import java.io.IOException;
  */
 public class NcwmsCatalogue extends DataCatalogue implements WmsCatalogue {
     private StyleCatalogue styleCatalogue;
-    private static String[] supportedCrsCodes;
+
+    private static final String CACHE_NAME = "dynamicDatasetCache";
+    private static final int MAX_HEAP_ENTRIES = 10;
+    private static final MemoryStoreEvictionPolicy EVICTION_POLICY = MemoryStoreEvictionPolicy.LFU;
+    private static final PersistenceConfiguration.Strategy PERSISTENCE_STRATEGY = PersistenceConfiguration.Strategy.NONE;
+    private static final CacheConfiguration.TransactionalMode TRANSACTIONAL_MODE = CacheConfiguration.TransactionalMode.OFF;
+    private static Cache dynamicDatasetCache;
 
     private static final String CACHE_NAME = "dynamicDatasetCache";
     private static final int MAX_HEAP_ENTRIES = 10;
