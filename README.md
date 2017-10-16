@@ -288,7 +288,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Authors and Contributors
 
-ncWMS is developed by the [Reading e-Science Centre](http://www.met.reading.ac.uk/resc/home/) and is mainainted by [@guygriffiths](https://github.com/guygriffiths).
+ncWMS is developed by the [Reading e-Science Centre](http://www.met.reading.ac.uk/resc/home/) and is maintained by [@guygriffiths](https://github.com/guygriffiths).
 
 Contributors:
 - [@yosoyjay](https://github.com/yosoyjay)
