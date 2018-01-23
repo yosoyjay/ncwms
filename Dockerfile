@@ -10,9 +10,6 @@ RUN \
         && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Fix for maven missing sting library
-RUN ln -s /usr/share/java/commons-lang.jar /usr/share/maven/lib/commons-lang.jar
-
 # Fix for java8 in jessie
 # https://serverfault.com/questions/830636/cannot-install-openjdk-8-jre-headless-on-debian-jessie/830637#830637
 # https://askubuntu.com/questions/190582/installing-java-automatically-with-silent-option
@@ -29,7 +26,7 @@ ENV EDAL_VERSION edal-1.4.0
 # Compile edal to use required features in dev branch
 RUN mkdir /edal && \
     cd /edal && \
-    git clone https://github.com/Reading-eScience-Centre/edal-java.git && \
+    git clone https://github.com/axiom-data-science/edal-java.git && \
     cd edal-java && \
     git checkout axiom-develop && \
     JAVA_HOME=/usr/lib/jvm/java-8-oracle mvn clean install
@@ -63,3 +60,6 @@ ENTRYPOINT ["/ncWMS/entrypoint.sh"]
 
 EXPOSE 8080 8443 9090
 CMD ["catalina.sh", "run"]
+
+HEALTHCHECK --interval=2m --timeout=1s --retries=3 \
+  CMD curl -fsIo /dev/null "http://localhost:8080/wms?REQUEST=GetLegendGraphic&COLORBARONLY=true" || exit 1

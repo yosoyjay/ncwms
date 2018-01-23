@@ -30,6 +30,9 @@ package uk.ac.rdg.resc.edal.ncwms;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.PersistenceConfiguration;
+import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import net.sf.ehcache.config.CacheConfiguration;
 import net.sf.ehcache.config.PersistenceConfiguration;
@@ -66,13 +69,6 @@ import java.io.IOException;
  */
 public class NcwmsCatalogue extends DataCatalogue implements WmsCatalogue {
     private StyleCatalogue styleCatalogue;
-
-    private static final String CACHE_NAME = "dynamicDatasetCache";
-    private static final int MAX_HEAP_ENTRIES = 10;
-    private static final MemoryStoreEvictionPolicy EVICTION_POLICY = MemoryStoreEvictionPolicy.LFU;
-    private static final PersistenceConfiguration.Strategy PERSISTENCE_STRATEGY = PersistenceConfiguration.Strategy.NONE;
-    private static final CacheConfiguration.TransactionalMode TRANSACTIONAL_MODE = CacheConfiguration.TransactionalMode.OFF;
-    private static Cache dynamicDatasetCache;
 
     private static final String CACHE_NAME = "dynamicDatasetCache";
     private static final int MAX_HEAP_ENTRIES = 10;
