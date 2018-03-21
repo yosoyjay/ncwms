@@ -16,7 +16,7 @@ if [ "$1" = 'start-tomcat.sh' ] || [ "$1" = 'catalina.sh' ]; then
     useradd -u ${USER_ID} -g tomcat -d ${CATALINA_HOME} -s /sbin/nologin \
         -c "Tomcat user" tomcat
 
-    chown -R tomcat:tomcat ${CATALINA_HOME} && chmod 400 ${CATALINA_HOME}/conf/*
+    chown -R tomcat:tomcat ${CATALINA_HOME} && chmod 400 ${CATALINA_HOME}/conf/*.*
     sync
 
     if [ ! -z "$DEFAULT_PALETTE" ]; then
