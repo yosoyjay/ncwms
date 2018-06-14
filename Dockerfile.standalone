@@ -20,7 +20,12 @@ RUN mvn clean install
 
 FROM openjdk:8
 
-WORKDIR /srv/ncwms
+WORKDIR /srv/ncWMS2
+
+RUN useradd --system --home-dir=/srv/ncWMS2 ncwms \
+      && chown -R ncwms:ncwms /srv/ncWMS2
+
+USER ncwms
 
 COPY --from=builder /src/ncwms/target/ncWMS2-standalone.jar ./ncWMS2.jar
 

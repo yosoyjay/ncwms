@@ -25,4 +25,4 @@ CHANGELOG
 .gitignore
 release_procedure.md
 Dockerfile
-Dockerfile.winstone
+Dockerfile.standalone
