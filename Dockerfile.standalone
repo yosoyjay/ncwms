@@ -29,6 +29,8 @@ USER ncwms
 
 COPY --from=builder /src/ncwms/target/ncWMS2-standalone.jar ./ncWMS2.jar
 
+RUN mkdir .ncWMS2
+
 EXPOSE 8080
 
 #config.xml is expected in ~/.ncWMS2/config.xml
