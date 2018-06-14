@@ -1,0 +1,35 @@
+FROM maven:3 as builder
+
+WORKDIR /src/edal
+
+ARG EDAL_CACHE_BUST=1
+ENV EDAL_VERSION edal-1.4.0
+# Compile edal to use required features in dev branch
+RUN git clone --depth 1 https://github.com/axiom-data-science/edal-java.git -b axiom-develop . \
+    && mvn clean install
+
+WORKDIR /src/ncwms
+
+# Cache some dependencies
+COPY pom.xml .
+RUN mvn clean test dependency:go-offline
+
+# Compile and install ncWMS
+COPY . .
+RUN mvn clean install
+
+FROM openjdk:8
+
+WORKDIR /srv/ncwms
+
+COPY --from=builder /src/ncwms/target/ncWMS2-standalone.jar ./ncWMS2.jar
+
+EXPOSE 8080
+
+#config.xml is expected in ~/.ncWMS2/config.xml
+#ehcache.xml is specified using -Dehcache.config=/path/to/ehcache.xml
+
+ENTRYPOINT ["java", "-jar", "/srv/ncWMS2/ncWMS2.jar"]
+
+HEALTHCHECK --interval=2m --timeout=1s --retries=3 \
+  CMD curl -fsIo /dev/null "http://localhost:8080/wms?REQUEST=GetLegendGraphic&COLORBARONLY=true" || exit 1
