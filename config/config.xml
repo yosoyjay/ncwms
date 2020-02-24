@@ -6,8 +6,9 @@
         </dataset>
     </datasets>
     <cache enabled="true">
-        <inMemorySizeMB>1024</inMemorySizeMB>
-        <elementLifetimeMinutes>0.0</elementLifetimeMinutes>
+        <!-- These are set to 0 because they are defined in the ehcache config -->
+        <inMemorySizeMB>0</inMemorySizeMB>
+        <elementLifetimeMinutes>0</elementLifetimeMinutes>
     </cache>
     <dynamicServices/>
     <contact>

@@ -1,6 +1,29 @@
 # ncWMS2
 
-[![Build Status](https://travis-ci.org/Reading-eScience-Centre/ncwms.svg?branch=test_hook)](https://travis-ci.org/Reading-eScience-Centre/ncwms)
+[![Build Status](https://travis-ci.org/axiom-data-science/ncwms.svg?branch=master)](https://travis-ci.org/Reading-eScience-Centre/ncwms)
+
+This is an ncWMS2 fork from [Axiom Data Science](https://axiomdatascience.com). Initially this was forked to add support for using [ehcache and terracotta](http://www.terracotta.org/open-source/). Since ncWMS development has stalled we now use this for testing other integrations.
+
+The main difference are:
+
+1. Automated docker builds available [here](https://hub.docker.com/repository/docker/axiom/ncwms/tags).
+2. Automated Docker builds are based off of the Axiom fork of [edal-java](https://github.com/axiom-data-science/edal-java).
+3. The `edal-java` source location can be specified when building a ncWMS docker container by specifying a few build arguments:
+
+    * EDAL_SOURCE_ORG (defaults to `axiom-data-science`)
+    * EDAL_SOURCE_BRANCH (defaults to `develop`)
+    * WEB_CONTEXT (defaults to `ROOT`). Typically, ncWMS is run in the `ncWMS` context (the URL path would be `/ncWMS/...`).
+
+    For example, to build with Axiom's `edal-java` but maintain the `ncWMS` context, you would run
+
+    ```
+    docker build \
+        -t ncwms2 \
+        --build-arg="WEB_CONTEXT=ncWMS" \
+        --build-arg="EDAL_SOURCE_ORG=axiom-data-science" \
+        --build-arg="EDAL_SOURCE_BRANCH=develop" \
+        .
+    ```
 
 - [Documentation](https://reading-escience-centre.gitbooks.io/ncwms-user-guide/content/)
 - [Source code](https://github.com/Reading-eScience-Centre/ncwms)
