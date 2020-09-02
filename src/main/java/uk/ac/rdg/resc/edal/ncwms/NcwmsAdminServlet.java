@@ -171,6 +171,7 @@ public class NcwmsAdminServlet extends HttpServlet {
         context.put("catalogue", catalogue);
         context.put("config", catalogue.getConfig());
         context.put("TimeUtils", TimeUtils.class);
+        response.setContentType("text/html");
         try {
             template.merge(context, response.getWriter());
         } catch (Exception e) {
@@ -300,6 +301,7 @@ public class NcwmsAdminServlet extends HttpServlet {
 
         context.put("dataset", dataset);
         context.put("paletteNames", ColourPalette.getPredefinedPalettes());
+        response.setContentType("text/html");
         try {
             template.merge(context, response.getWriter());
         } catch (Exception e) {

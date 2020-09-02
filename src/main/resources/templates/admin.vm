@@ -2,7 +2,7 @@
 <link rel=StyleSheet href="../css/ncWMS.css" type="text/css" />
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Administrative interface to ncWMS</title>
     </head>
     <body>

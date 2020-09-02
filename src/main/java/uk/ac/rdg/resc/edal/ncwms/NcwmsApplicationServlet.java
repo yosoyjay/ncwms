@@ -334,6 +334,7 @@ public class NcwmsApplicationServlet extends HttpServlet {
         response.setHeader("Pragma", "no-cache");
         /* Prevents caching at the proxy server */
         response.setDateHeader("Expires", 0);
+        response.setContentType("text/html");
         /*
          * Just return the front page. If we want some more (dynamic) web pages
          * available here, we need to do some extra handling of what the URL
