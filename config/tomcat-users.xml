@@ -13,11 +13,11 @@
   <role rolename="ncWMS-admin"/>
 
   <user username="ncwms"
-        password="823f3f8e9a2727375993229e4a71593618441c07"
+        password="fc58a6b2f92e6f987f27668871d18e7b29682addd4902bfd5124afb7ce808a37$1$ff5a40467dc6f1ad960cc76c74cb19bd2d97c9d7c4a8855f47a9016898e64f9accfa4cda79d90b6df104884c99b66cb71fb340614a0f1ea7dc9d54ef5c5d2858"
         roles="ncWMS-admin"/>
 
   <user username="admin"
-        password="d033e22ae348aeb5660fc2140aec35850c4da997"
+        password="b316209a539afa140fd6bb9460dcfbe1c0ff2e0ef6fdb7158c4710d837643be2$1$31d3c573eda03847f7a44847fe123a390b8d870b4595d3091ee9aaec0a5c8b35e3f62490795a726b113efe86a150583100ccf56dc4909491e6d177c4841d98e3"
         roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
 
 </tomcat-users>

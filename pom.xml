@@ -180,8 +180,8 @@
                 <!-- Sets the source version to Java 11 -->
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <strict>true</strict>
                 </configuration>
                 <version>3.8.1</version>
@@ -256,6 +256,9 @@
                 <configuration>
                     <moduleName>uk.ac.rdg.resc.edal.ncwms.Godiva3</moduleName>
                     <webappDirectory>src/main/webapp</webappDirectory>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                 </configuration>
             </plugin>
         </plugins>

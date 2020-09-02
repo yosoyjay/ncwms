@@ -1,4 +1,4 @@
-FROM maven:3.6.3-jdk-8 as builder
+FROM maven:3.6.3-jdk-11 as builder
 
 WORKDIR /src/edal
 
@@ -10,8 +10,8 @@ ARG EDAL_SOURCE_BRANCH=develop
 
 # Compile edal to use required features in dev branch
 RUN echo "Using EDAL https://github.com/${EDAL_SOURCE_ORG}/edal-java.git@${EDAL_SOURCE_BRANCH}" && \
-    git clone --depth 1 https://github.com/${EDAL_SOURCE_ORG}/edal-java.git -b ${EDAL_SOURCE_BRANCH} . \
-    && mvn clean install
+    git clone --depth 1 https://github.com/${EDAL_SOURCE_ORG}/edal-java.git -b ${EDAL_SOURCE_BRANCH} . && \
+    mvn clean install
 
 WORKDIR /src/ncwms
 
@@ -21,7 +21,7 @@ RUN mvn clean test dependency:go-offline
 
 # Compile and install ncWMS
 COPY . .
-RUN mvn clean install
+RUN mvn clean compile gwt:compile install
 
 FROM unidata/tomcat-docker:8.5
 MAINTAINER Kyle Wilcox <kyle@axiomdatascience.com>
