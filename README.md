@@ -7,8 +7,8 @@ This is an ncWMS2 fork from [Axiom Data Science](https://axiomdatascience.com). 
 The main difference are:
 
 1. Automated docker builds available [here](https://hub.docker.com/repository/docker/axiom/ncwms/tags).
-2. Automated Docker builds are based off of the Axiom fork of [edal-java](https://github.com/axiom-data-science/edal-java).
-3. The `edal-java` source location can be specified when building a ncWMS docker container by specifying a few build arguments:
+1. Automated Docker builds are based off of the Axiom fork of [edal-java](https://github.com/axiom-data-science/edal-java).
+1. The `edal-java` source location can be specified when building a ncWMS docker container by specifying a few build arguments:
 
     * EDAL_SOURCE_ORG (defaults to `axiom-data-science`)
     * EDAL_SOURCE_BRANCH (defaults to `develop`)
@@ -24,6 +24,8 @@ The main difference are:
         --build-arg="EDAL_SOURCE_BRANCH=develop" \
         .
     ```
+1. You can enable CORS at the tomcat level by building with `--build-arg="ENABLE_CORS=1"`. By default CORS is not enabled and you should enable it at another level (i.e. nginx).
+
 
 - [Documentation](https://reading-escience-centre.gitbooks.io/ncwms-user-guide/content/)
 - [Source code](https://github.com/Reading-eScience-Centre/ncwms)

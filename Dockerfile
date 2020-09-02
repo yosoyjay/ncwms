@@ -29,6 +29,8 @@ MAINTAINER Kyle Wilcox <kyle@axiomdatascience.com>
 COPY --from=builder /src/ncwms/target/ncWMS2.war ./ncWMS2.war
 
 ARG WEB_CONTEXT=ROOT
+ARG ENABLE_CORS=0
+
 RUN unzip ./ncWMS2.war -d $CATALINA_HOME/webapps/${WEB_CONTEXT}/ && \
     rm ./ncWMS2.war
 
@@ -41,6 +43,11 @@ RUN sed -i -e 's/DIGEST/BASIC/' $CATALINA_HOME/webapps/${WEB_CONTEXT}/WEB-INF/we
     cp /ncWMS/config/setenv.sh $CATALINA_HOME/bin/setenv.sh && \
     cp /ncWMS/config/ehcache.xml $CATALINA_HOME/conf/ehcache.xml && \
     cp /ncWMS/config/tomcat-users.xml $CATALINA_HOME/conf/tomcat-users.xml && \
+    if [ "$ENABLE_CORS" = "1" ]; then \
+        cp /ncWMS/config/tomcat-web-cors.xml ${CATALINA_HOME}/conf/web.xml; \
+    else \
+        cp /ncWMS/config/tomcat-web.xml ${CATALINA_HOME}/conf/web.xml; \
+    fi && \
     mkdir -p $CATALINA_HOME/conf/Catalina/localhost/ && \
     cp /ncWMS/config/context.xml $CATALINA_HOME/conf/Catalina/localhost/${WEB_CONTEXT}.xml && \
     mkdir -p $CATALINA_HOME/.ncWMS2 && \
